@@ -35,24 +35,17 @@ export const App: React.FC<Props> = ({
   const handleQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedPerson(null);
     setImmediateQuery(event.target.value);
-
-    if (
-      event.target.value.trim() === '' ||
-      event.target.value === appliedQuery
-    ) {
-      return;
-    }
-
     debouncedApplyQuery(event.target.value);
   };
 
   const handlePersonSelect = (person: Person) => {
     setSelectedPerson(person);
+    setImmediateQuery(person.name);
     setIsListShown(false);
     onSelected(person);
   };
 
-  const onInputFocus = () => {
+  const handleInputFocus = () => {
     setIsListShown(true);
   };
 
@@ -81,7 +74,7 @@ export const App: React.FC<Props> = ({
           <div className="dropdown-trigger">
             <input
               onChange={handleQueryChange}
-              onFocus={onInputFocus}
+              onFocus={handleInputFocus}
               value={immediateQuery}
               type="text"
               placeholder="Enter a part of the name"
